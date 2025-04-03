@@ -1,11 +1,13 @@
+import os
 from fastapi import FastAPI
+import uvicorn
+
 from api.config.config import config
 from fastapi.middleware.cors import CORSMiddleware
 from api.utils.app_response import AppResponse
 from api.routes import router as api_router
 from api.utils.database import engine, Base
 from contextlib import asynccontextmanager
-import os  # Import os to read environment variables
 
 docs_url = "/docs" if config["app"]["env"] == "development" else None
 redoc_url = "/redoc" if config["app"]["env"] == "development" else None
@@ -48,13 +50,13 @@ async def root():
 if __name__ == "__main__": 
     import uvicorn
 
-    # Use the environment variable PORT, with a fallback to a default port (e.g., 8000)
-    port = int(os.getenv("PORT", 8000))  # Render will set the PORT environment variable
+    # Get the port from environment variable, default to 8000 if not provided
+    port = int(os.getenv("PORT", 8000))  # Render sets the PORT env variable
 
-    # Run Uvicorn server with dynamic port and host binding
+    # Ensure that the host is set to 0.0.0.0
     uvicorn.run(
         "api.main:app",
-        host="0.0.0.0",  # Bind to all available interfaces
-        port=port,       # Use the dynamically assigned port
+        host="0.0.0.0",  # Ensure it listens on all network interfaces
+        port=port,       # Bind to the dynamic port from the environment variable
         reload=True,     # Enable auto-reloading in development
     )
