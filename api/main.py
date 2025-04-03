@@ -40,7 +40,7 @@ app.include_router(api_router)
 async def root():
     return AppResponse.send_success(
         data=None, 
-        message="Welcome to the FAST API by DANIELLE LUNAS!",
+        message="Welcome to the FAST API",
         code=200
     )
 
