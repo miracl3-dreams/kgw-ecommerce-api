@@ -10,3 +10,5 @@ alembic
 pytest
 pytest-asyncio
 mypy
+pydantic[email]
+
